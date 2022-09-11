@@ -48,7 +48,6 @@ app.MapDelete("/todoitems/{id}", DeleteTodoItem);
 // app.MapGet("/ping", async ([FromQuery] string message, IMediator mediator) => await mediator.Send(new PingRequest { Message = message }));
 app.MediatorMapGet("/ping", ([FromQuery] string message) => new PingRequest { Message = message });
 
-//TODO: MediatR 
 //New section to register programmers
 
 app.Run();
