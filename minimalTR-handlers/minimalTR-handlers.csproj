@@ -14,5 +14,6 @@
   
   <ItemGroup>
     <ProjectReference Include="..\minimalTR-core\minimalTR-core.csproj" />
+    <ProjectReference Include="..\minimalTR-dal\minimalTR-dal.csproj" />
   </ItemGroup>
 </Project>
