@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using minimalTR_core.Ping;
 using minimalTR_handlers.Ping;
-using minimalTR_core.Atendee;
+using minimalTR_core.Attendee;
 using Swashbuckle.AspNetCore.Annotations;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -64,7 +64,7 @@ app.MapGet("/ping", async ([FromQuery] string message, IMediator mediator) => aw
  .WithTags("Ping");
 
 //New section to register programmers
-app.MapPost("/attendee", async (AttendeeDTO atendee, IMediator mediator) => await mediator.Send(new CreateAttendeeCommand{ Name = atendee.Name, Age = atendee.Age}) );
+app.MapPost("/attendee", async (AttendeeDTO Attendee, IMediator mediator) => await mediator.Send(new CreateAttendeeCommand{ Name = Attendee.Name, Age = Attendee.Age}) );
 
 app.Run();
 

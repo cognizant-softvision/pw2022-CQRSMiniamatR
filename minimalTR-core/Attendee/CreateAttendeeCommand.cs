@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace minimalTR_core.Atendee;
+namespace minimalTR_core.Attendee;
 
 public class CreateAttendeeCommand: IRequest<OperationResult>
 {
