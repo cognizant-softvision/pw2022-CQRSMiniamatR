@@ -21,4 +21,9 @@
   <ItemGroup>
     <InternalsVisibleTo Include="$(AssemblyName).Tests" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\minimalTR-core\minimalTR-core.csproj" />
+    <ProjectReference Include="..\minimalTR-handlers\minimalTR-handlers.csproj" />
+  </ItemGroup>
 </Project>

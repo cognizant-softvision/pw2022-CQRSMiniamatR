@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/minimalTR-full/minimalTR-full.csproj",
+                "${workspaceFolder}/minimalTR-api/minimalTR-api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/minimalTR-full/minimalTR-full.csproj",
+                "${workspaceFolder}/minimalTR-api/minimalTR-api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/minimalTR-full/minimalTR-full.csproj"
+                "${workspaceFolder}/minimalTR-api/minimalTR-api.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

@@ -2,7 +2,8 @@ using System.Reflection;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using minimalTR.Ping;
+using minimalTR_core.Ping;
+using minimalTR_handlers.Ping;
 using Swashbuckle.AspNetCore.Annotations;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +17,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c => c.EnableAnnotations(true, true));//Enable swagger annotations
 
-builder.Services.AddMediatR(x => x.AsScoped(), Assembly.GetExecutingAssembly());
+builder.Services.AddMediatR(x => x.AsScoped(), typeof(PingHandler).Assembly);
 
 var app = builder.Build();
 

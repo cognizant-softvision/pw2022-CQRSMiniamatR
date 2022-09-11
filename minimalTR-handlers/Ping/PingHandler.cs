@@ -1,6 +1,7 @@
 using MediatR;
+using minimalTR_core.Ping;
 
-namespace minimalTR.Ping;
+namespace minimalTR_handlers.Ping;
 
 public class PingHandler : IRequestHandler<PingRequest, string>
 {
