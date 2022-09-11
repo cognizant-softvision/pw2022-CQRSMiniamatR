@@ -1,5 +1,7 @@
 using MediatR;
 
+//An idea of how to simplify endpoint mapping.
+//TODO: metadata for https://github.com/DamianEdwards/MinimalApis.Extensions/blob/main/src/MinimalApis.Extensions/Metadata/EndpointMetadataProviderApiDescriptionProvider.cs#L135
 public static class MediatRMapExtensions
 {
     public static RouteHandlerBuilder MediatorMapGet<T1, TRequest>(this IEndpointRouteBuilder app, 

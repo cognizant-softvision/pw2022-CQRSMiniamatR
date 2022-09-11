@@ -13,7 +13,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-// builder.Services.AddSwaggerGen();
+
 builder.Services.AddSwaggerGen(c => c.EnableAnnotations(true, true));//Enable swagger annotations
 
 builder.Services.AddMediatR(x => x.AsScoped(), Assembly.GetExecutingAssembly());
@@ -31,40 +31,35 @@ app.UseHttpsRedirection();
 
 app.MapGet("/", () => "Hello programmers week!");
 
-app.MapGet("/todoitems", async (TodoDb db) =>
-    await db.Todos.Select(x => new TodoItemDTO(x)).ToListAsync()
-    );
+#region TodoItems
 
-app.MapGet("/todoitems/{id}", async (int id, TodoDb db) =>
-    await db.Todos.FindAsync(id)
-        is Todo todo
-            ? Results.Ok(new TodoItemDTO(todo))
-            : Results.NotFound())
-    .Produces<Todo>(StatusCodes.Status200OK)
-    .WithTags("TodoGroup")
-    .WithMetadata(new SwaggerOperationAttribute(summary: "Get a todo item by id", description: "A longer description goes here"));
-
-app.MapPost("/todoitems", CreateTodoItem)
-    .WithTags("TodoGroup");
-
-app.MapPut("/todoitems/{id}", UpdateTodoItem)
-    .WithTags("TodoGroup");
-
-app.MapDelete("/todoitems/{id}", DeleteTodoItem)
-    .WithTags("TodoGroup");
-
-//TODO: check metadata provider fromhttps://github.com/DamianEdwards/MinimalApis.Extensions/blob/main/src/MinimalApis.Extensions/Metadata/EndpointMetadataProviderApiDescriptionProvider.cs#L135
-app.MapGet("/hello", (MessageDto message) => $"hello {message.Message}")
-     .WithTags("Ping");
+	app.MapGet("/todoitems", async (TodoDb db) =>
+	    await db.Todos.Select(x => new TodoItemDTO(x)).ToListAsync()
+	    );
+	
+	app.MapGet("/todoitems/{id}", async (int id, TodoDb db) =>
+	    await db.Todos.FindAsync(id)
+	        is Todo todo
+	            ? Results.Ok(new TodoItemDTO(todo))
+	            : Results.NotFound())
+	    .Produces<Todo>(StatusCodes.Status200OK)
+	    .WithTags("TodoGroup")
+	    .WithMetadata(new SwaggerOperationAttribute(summary: "Get a todo item by id", description: "A longer description goes here"));
+	
+	app.MapPost("/todoitems", CreateTodoItem)
+	    .WithTags("TodoGroup");
+	
+	app.MapPut("/todoitems/{id}", UpdateTodoItem)
+	    .WithTags("TodoGroup");
+	
+	app.MapDelete("/todoitems/{id}", DeleteTodoItem)
+	    .WithTags("TodoGroup");
+	
+#endregion
 
 //Map get for ping action to return pong
-// app.MapGet("/ping", async ([FromQuery] string message, IMediator mediator) => await mediator.Send(new PingRequest { Message = message }));
-app.MediatorMapGet("/ping", ([FromQuery(Name = "message") ]string message) => new PingRequest { Message = message })
-    .WithTags("Ping");
-
-// app.MediatorMapGet("/otherPing", (PingRequest request) => request)
-//     .WithTags("Ping");
-
+app.MapGet("/ping", async ([FromQuery] string message, IMediator mediator) => await mediator.Send(new PingRequest { Message = message }))
+ .WithTags("Ping");
 
 //New section to register programmers
 
