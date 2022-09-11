@@ -1,4 +1,8 @@
+using System.Reflection;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using minimalTR.Ping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +13,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 
@@ -21,26 +27,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/", () => "Hello World!");
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateTime.Now.AddDays(index),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+app.MapGet("/", () => "Hello programmers week!");
 
 app.MapGet("/todoitems", async (TodoDb db) =>
     await db.Todos.Select(x => new TodoItemDTO(x)).ToListAsync());
@@ -51,7 +38,32 @@ app.MapGet("/todoitems/{id}", async (int id, TodoDb db) =>
             ? Results.Ok(new TodoItemDTO(todo))
             : Results.NotFound());
 
-app.MapPost("/todoitems", async (TodoItemDTO todoItemDTO, TodoDb db) =>
+app.MapPost("/todoitems", CreateTodoItem);
+
+app.MapPut("/todoitems/{id}", UpdateTodoItem);
+
+app.MapDelete("/todoitems/{id}", DeleteTodoItem);
+
+//Map get for ping action to return pong
+app.MapGet("/ping", async ([FromQuery]string message, IMediator mediator)=> await mediator.Send(new PingRequest { Message = message }));
+
+//TODO: MediatR 
+//New section to register programmers
+
+
+app.Run();
+
+
+
+
+
+
+
+
+
+
+//Some mapped items
+static async Task<IResult> CreateTodoItem(TodoItemDTO todoItemDTO, TodoDb db)
 {
     var todoItem = new Todo
     {
@@ -63,9 +75,9 @@ app.MapPost("/todoitems", async (TodoItemDTO todoItemDTO, TodoDb db) =>
     await db.SaveChangesAsync();
 
     return Results.Created($"/todoitems/{todoItem.Id}", new TodoItemDTO(todoItem));
-});
+}
 
-app.MapPut("/todoitems/{id}", async (int id, TodoItemDTO todoItemDTO, TodoDb db) =>
+static async Task<IResult> UpdateTodoItem(int id, TodoItemDTO todoItemDTO, TodoDb db)
 {
     var todo = await db.Todos.FindAsync(id);
 
@@ -77,9 +89,9 @@ app.MapPut("/todoitems/{id}", async (int id, TodoItemDTO todoItemDTO, TodoDb db)
     await db.SaveChangesAsync();
 
     return Results.NoContent();
-});
+}
 
-app.MapDelete("/todoitems/{id}", async (int id, TodoDb db) =>
+static async Task<IResult> DeleteTodoItem(int id, TodoDb db)
 {
     if (await db.Todos.FindAsync(id) is Todo todo)
     {
@@ -89,6 +101,4 @@ app.MapDelete("/todoitems/{id}", async (int id, TodoDb db) =>
     }
 
     return Results.NotFound();
-});
-
-app.Run();
+}
