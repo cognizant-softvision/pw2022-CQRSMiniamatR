@@ -11,11 +11,24 @@ public static class AttendeeEndpoints
             this IEndpointRouteBuilder endpoints)
     {
         endpoints.MapPost("/attendee", CreateAtteendee).WithTags(ApiGroup);
+        endpoints.MapGet("/attendee/{id}", GetAttendeeById).WithTags(ApiGroup);
 
         return endpoints;
     }
 
-    public static async Task<IResult> CreateAtteendee(AttendeeDTO Attendee, IMediator mediator)
+    private static async Task<IResult> GetAttendeeById(int id, IMediator mediator)
+    {
+        var result = await mediator.Send(new AttendeeByIdQuery { Id = id });
+
+        if (result == null)
+        {
+            return Results.NoContent();
+        }
+
+        return Results.Ok(new { result.Id, result.Name, result.Age, InviteText = $"welcome {result.Name}!" });
+    }
+
+    public static async Task<IResult> CreateAtteendee(CreateAttendeeDTO Attendee, IMediator mediator)
     {
         var result = await mediator.Send(new CreateAttendeeCommand { Name = Attendee.Name, Age = Attendee.Age });
 
