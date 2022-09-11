@@ -14,7 +14,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+builder.Services.AddMediatR(x => x.AsScoped(), Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 
@@ -45,22 +45,13 @@ app.MapPut("/todoitems/{id}", UpdateTodoItem);
 app.MapDelete("/todoitems/{id}", DeleteTodoItem);
 
 //Map get for ping action to return pong
-app.MapGet("/ping", async ([FromQuery]string message, IMediator mediator)=> await mediator.Send(new PingRequest { Message = message }));
+// app.MapGet("/ping", async ([FromQuery] string message, IMediator mediator) => await mediator.Send(new PingRequest { Message = message }));
+app.MediatorMapGet("/ping", ([FromQuery] string message) => new PingRequest { Message = message });
 
 //TODO: MediatR 
 //New section to register programmers
 
-
 app.Run();
-
-
-
-
-
-
-
-
-
 
 //Some mapped items
 static async Task<IResult> CreateTodoItem(TodoItemDTO todoItemDTO, TodoDb db)
