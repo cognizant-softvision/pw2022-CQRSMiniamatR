@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
+using minimalTR_dal;
 
-class TodoApplication : WebApplicationFactory<Program>
+class TestApi : WebApplicationFactory<Program>
 {
     protected override IHost CreateHost(IHostBuilder builder)
     {
@@ -15,9 +15,12 @@ class TodoApplication : WebApplicationFactory<Program>
         builder.ConfigureServices(services =>
         {
             services.RemoveAll(typeof(DbContextOptions<TodoDb>));
-
             services.AddDbContext<TodoDb>(options =>
-                options.UseInMemoryDatabase("Testing", root));
+                options.UseInMemoryDatabase("Testing_Todo", root));
+
+            services.RemoveAll(typeof(DbContextOptions<MinimaltrDB>));
+            services.AddDbContext<MinimaltrDB>(options =>
+                options.UseInMemoryDatabase("Testing_Api", root));
         });
 
         return base.CreateHost(builder);
