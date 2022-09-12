@@ -11,7 +11,7 @@ public class PingTests
     public async Task When_PingIsCalled_ShouldReturn_Ok(string testMessage)
     {
         //Arrange
-        await using var application = new TodoApplication();
+        await using var application = new TestApi();
         var client = application.CreateClient();
 
         //Act

@@ -6,7 +6,7 @@ public class CreateAttendeeCommandValidator : AbstractValidator<CreateAttendeeCo
 {
     public CreateAttendeeCommandValidator()
     {
-        RuleFor(x => x.Age).GreaterThan(18);
+        RuleFor(x => x.Age).GreaterThan(17).WithMessage("Attendee should be have at least 18 years old");
 
         RuleFor(x => x.Name).NotEmpty().MaximumLength(100);
     }

@@ -6,7 +6,7 @@ public class Todo_Tests
     [Fact]
     public async Task Gettodoitems()
     {
-        await using var application = new TodoApplication();
+        await using var application = new TestApi();
 
         var client = application.CreateClient();
         var todoitems = await client.GetFromJsonAsync<List<Todo>>("/todoitems");
@@ -17,7 +17,7 @@ public class Todo_Tests
     [Fact]
     public async Task Posttodoitems()
     {
-        await using var application = new TodoApplication();
+        await using var application = new TestApi();
 
         var client = application.CreateClient();
         var response = await client.PostAsJsonAsync("/todoitems", new Todo { Name = "I want to do this thing tomorrow" });
@@ -34,7 +34,7 @@ public class Todo_Tests
     [Fact]
     public async Task Deletetodoitems()
     {
-        await using var application = new TodoApplication();
+        await using var application = new TestApi();
 
         var client = application.CreateClient();
         var response = await client.PostAsJsonAsync("/todoitems", new Todo { Name = "I want to do this thing tomorrow" });
