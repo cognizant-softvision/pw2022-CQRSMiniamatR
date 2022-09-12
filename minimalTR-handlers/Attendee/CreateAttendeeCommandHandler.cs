@@ -27,6 +27,6 @@ public class CreateAttendeeCommandHandler : IRequestHandler<CreateAttendeeComman
 
         await MinimaltrDB.SaveChangesAsync();
 
-        return OperationResult<int>.Success(attendeeInfo.Id);
+        return new OperationResult<int>(attendeeInfo.Id);
     }
 }

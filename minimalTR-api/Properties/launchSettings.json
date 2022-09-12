@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "minimalTR_full": {
+    "minimalTR_api": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
