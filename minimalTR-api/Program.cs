@@ -1,9 +1,11 @@
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using minimalTR_api;
+using minimalTR_api.Attendee;
 using minimalTR_core.Ping;
 using minimalTR_dal;
-using minimalTR_full.Attendee;
 using minimalTR_handlers.Ping;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -20,6 +22,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => c.EnableAnnotations(true, true));//Enable swagger annotations
 
 builder.Services.AddMediatR(x => x.AsScoped(), typeof(PingHandler).Assembly);
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+builder.Services.AddValidatorsFromAssembly(typeof(PingHandler).Assembly);
 
 var app = builder.Build();
 

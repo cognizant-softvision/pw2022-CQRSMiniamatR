@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using minimalTR_core.Attendee;
 
-namespace minimalTR_full.Attendee;
+namespace minimalTR_api.Attendee;
 
 public static class AttendeeEndpoints
 {
@@ -32,11 +32,11 @@ public static class AttendeeEndpoints
     {
         var result = await mediator.Send(new CreateAttendeeCommand { Name = Attendee.Name, Age = Attendee.Age });
 
-        if (result.Sucess)
+        if (result.Success)
         {
             return Results.Created($"/attendee{result.Value}", new { Id = result.Value });
         }
 
-        return Results.Problem();
+        return Results.BadRequest(result.Errors);
     }
 }

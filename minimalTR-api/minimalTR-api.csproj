@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>minimalTR_full</RootNamespace>
+    <RootNamespace>minimalTR_api</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
